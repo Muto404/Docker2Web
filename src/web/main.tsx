@@ -1016,31 +1016,31 @@ function Editor({
     services.find(
       (s) => s.project === entry?.binding?.project && s.service === entry?.binding?.service,
     );
+  const eligible = matched?.ports.filter((p) => p.eligible) || [];
+  const initialPort = eligible.length === 1 ? eligible[0] : undefined;
   const [selected, setSelected] = useState(matched?.id || ''),
     [key] = useState(() => crypto.randomUUID()),
     [v, setV] = useState<Input>({
       subdomain: entry ? entry.domain_names[0].slice(0, -settings.baseDomain.length - 1) : '',
-      port: entry?.forward_port || matched?.ports.find((p) => p.eligible)?.hostPort || 3000,
+      port: entry?.forward_port || initialPort?.hostPort || (matched ? 0 : 3000),
       scheme: entry?.forward_scheme === 'https' ? 'https' : 'http',
       certificateId: entry?.certificate_id || settings.certificateId,
       websocket: entry?.allow_websocket_upgrade || false,
       project: matched?.project || '',
       service: matched?.service || '',
-      containerPort:
-        entry?.binding?.containerPort ||
-        matched?.ports.find((p) => p.eligible)?.containerPort ||
-        null,
+      containerPort: entry?.binding?.containerPort || initialPort?.containerPort || null,
     });
   const s = services.find((s) => s.id === selected);
   function choose(id: string) {
     setSelected(id);
     const next = services.find((s) => s.id === id),
-      p = next?.ports.find((p) => p.eligible);
+      ports = next?.ports.filter((p) => p.eligible) || [],
+      p = ports.length === 1 ? ports[0] : undefined;
     setV({
       ...v,
       project: next?.project || '',
       service: next?.service || '',
-      port: p?.hostPort || v.port,
+      port: p?.hostPort || (next ? 0 : v.port || 3000),
       containerPort: p?.containerPort || null,
     });
   }
@@ -1099,12 +1099,23 @@ function Editor({
             宿主机端口
             {s ? (
               <select
-                value={`${v.port}:${v.containerPort}`}
+                required
+                value={
+                  s.ports.some(
+                    (p) =>
+                      p.eligible && p.hostPort === v.port && p.containerPort === v.containerPort,
+                  )
+                    ? `${v.port}:${v.containerPort}`
+                    : ''
+                }
                 onChange={(e) => {
                   const [port, containerPort] = e.target.value.split(':').map(Number);
                   setV({ ...v, port, containerPort });
                 }}
               >
+                <option value="" disabled>
+                  请选择宿主机端口
+                </option>
                 {s.ports
                   .filter((p) => p.eligible)
                   .map((p, i) => (
@@ -1169,7 +1180,7 @@ function Editor({
               https://{v.subdomain || 'your-project'}.{settings.baseDomain}
             </strong>
             <span>
-              → {settings.forwardHost}:{v.port}
+              → {settings.forwardHost}:{v.port || '请选择端口'}
             </span>
           </div>
           {error && (

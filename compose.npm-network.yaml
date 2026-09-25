@@ -1,0 +1,11 @@
+# Optional: bypass Docker Desktop host-port hairpin for proxy health checks.
+# docker compose -f compose.yaml -f compose.npm-network.yaml up -d --build
+# Set the app's NPM proxy address to npm-npm-1 (or your NPM container name).
+services:
+  app:
+    networks:
+      - npm
+networks:
+  npm:
+    external: true
+    name: ${NPM_NETWORK:-npm_default}

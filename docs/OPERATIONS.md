@@ -83,3 +83,16 @@ docker compose -f compose.integration.yaml down -v
 此命令会删除该 Compose 项目的测试卷。随后删除 `.runtime/integration/`、`.runtime/npm-credentials.json`、`.runtime/test.crt`、`.runtime/test.key` 再运行 `npm run test:prepare`，避免旧凭据、证书和旧绑定相互混用。不要把正式 NPM 数据目录挂到测试配置中。
 
 当前 v0.1 没有自动日志清理；API 历史只展示最近 300 条，完整日志仍留在 SQLite。备份时检查磁盘使用量。
+
+## Docker Desktop 宿主机 443 回连超时
+
+如果 DNS 正常、Mac 上访问返回 200，但容器内经 `host.docker.internal:443` 的 TLS 检查超时，可以让域名管家加入现有 NPM 网络：
+
+```sh
+# 默认 NPM 网络为 npm_default；不同名称可通过 NPM_NETWORK 指定。
+docker compose -f compose.yaml -f compose.npm-network.yaml up -d --build
+```
+
+在连接设置中将「NPM 代理地址」改为 NPM 容器名（例如 `npm-npm-1`），端口仍为 443。管理地址和业务转发主机不需要随之改变。要让后续普通 `docker compose up -d` 保留网络覆盖，可在本地 `.env` 增加 `COMPOSE_FILE=compose.yaml:compose.npm-network.yaml`（macOS/Linux）。外部 NPM 网络应先存在。域名管家的 Docker reader 仍然只加入内部 reader 网络。
+
+如果命令行直连域名正常、浏览器访问超时，检查系统代理是否将该私有域名转发到了外部代理。可在代理软件中为自己的私有域名设置直连规则；不要关闭 TLS 验证。
