@@ -104,5 +104,3 @@ NODE_EXTRA_CA_CERTS=.runtime/test.crt npm run test:integration
 - [运维、备份、升级与恢复](docs/OPERATIONS.md)
 - [测试与交付记录](docs/VALIDATION.md)
 - [版本记录](CHANGELOG.md)
-
-源代码、测试和示例可提交；`.env`、`secrets/`、`data/`、`.runtime/` 和 `backups/` 均已由 `.gitignore` 排除。
