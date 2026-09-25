@@ -1,0 +1,8 @@
+node_modules
+dist
+.runtime
+data
+secrets
+backups
+package-lock.json
+docs/PLAN.md

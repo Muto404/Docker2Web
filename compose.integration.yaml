@@ -1,0 +1,16 @@
+name: pdm-integration
+services:
+  npm-test:
+    image: jc21/nginx-proxy-manager:2.16.0
+    labels:
+      pdm.internal: 'true'
+    ports:
+      - '127.0.0.1:18181:81'
+      - '127.0.0.1:18443:443'
+      - '127.0.0.1:18081:80'
+    volumes:
+      - npm-test-data:/data
+      - npm-test-certs:/etc/letsencrypt
+volumes:
+  npm-test-data: {}
+  npm-test-certs: {}

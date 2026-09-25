@@ -1,0 +1,51 @@
+name: project-domain-manager
+services:
+  app:
+    image: project-domain-manager:0.1.0
+    build:
+      context: .
+      target: app
+    restart: unless-stopped
+    labels:
+      pdm.internal: 'true'
+    ports:
+      - '${PDM_BIND_IP:-127.0.0.1}:${PDM_PORT:-3100}:3100'
+    environment:
+      APP_ORIGIN: '${APP_ORIGIN:-http://127.0.0.1:3100}'
+    volumes:
+      - ./data:/data
+      - ./secrets/encryption-key:/run/secrets/encryption-key:ro
+      - ./secrets/bootstrap-token:/run/secrets/bootstrap-token:ro
+    networks:
+      - reader
+      - outbound
+    depends_on:
+      - docker-reader
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+  docker-reader:
+    image: project-domain-manager-reader:0.1.0
+    build:
+      context: .
+      target: gateway
+    restart: unless-stopped
+    labels:
+      pdm.internal: 'true'
+    volumes:
+      - '${DOCKER_SOCKET_PATH:-/var/run/docker.sock}:/var/run/docker.sock:ro'
+    networks:
+      - reader
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+networks:
+  reader:
+    internal: true
+  outbound: {}
