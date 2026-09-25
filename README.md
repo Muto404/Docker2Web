@@ -31,7 +31,9 @@ cp .env.example .env
 docker compose up -d --build
 ```
 
-打开 **http://127.0.0.1:3100**。首次初始化需要读取本机 `secrets/bootstrap-token`，设置至少 12 位的管理员密码。不要把密钥粘贴到聊天、工单或 Git。
+打开 [http://127.0.0.1:3100](http://127.0.0.1:3100)。
+
+首次初始化时，读取本机 `secrets/bootstrap-token` 中的初始化密钥，并设置至少 12 位的管理员密码。不要把密钥粘贴到聊天、工单或 Git。
 
 在“连接设置”填写：
 
@@ -103,4 +105,4 @@ NODE_EXTRA_CA_CERTS=.runtime/test.crt npm run test:integration
 - [测试与交付记录](docs/VALIDATION.md)
 - [版本记录](CHANGELOG.md)
 
-源代码、测试和示例可提交；`.env`、`secrets/`、`data/`、`.runtime/` 和 `backups/` 均已排除。不要把本机环境目录加入 Git。
+源代码、测试和示例可提交；`.env`、`secrets/`、`data/`、`.runtime/` 和 `backups/` 均已由 `.gitignore` 排除。
