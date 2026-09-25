@@ -1,6 +1,10 @@
-# 域名管家 · Project Domain Manager
+# Docker2Web
+
+为 Docker 项目绑定域名
 
 为 Docker Compose 项目绑定子域名，通过 Nginx Proxy Manager 管理 HTTPS 入口。继续使用原始 Compose 部署，DNS 与证书保留在已有的 Cloudflare / NPM 中。
+
+Docker2Web 的 Compose 项目名、镜像名和外部网络名仍保留 `project-domain-manager`，用于兼容已有部署、数据卷和 NPM 网络配置。
 
 **v0.1.0：可试用版本，NPM 2.16.0 已验证。** 真实 NPM 集成与本机 Docker Desktop ARM64 部署通过；正式 NPM 接入和手机 Tailscale 网络验收需要完成初始化后进行。
 

@@ -14,7 +14,7 @@ const { app } = await buildApp({
     process.env.DOCKER_ENDPOINT || `unix://${process.env.HOME}/.docker/run/docker.sock`,
 });
 await app.listen({ port, host });
-console.log(`Project Domain Manager listening on ${host}:${port}`);
+console.log(`Docker2Web listening on ${host}:${port}`);
 for (const signal of ['SIGINT', 'SIGTERM'])
   process.on(signal, async () => {
     await app.close();

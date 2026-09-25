@@ -155,13 +155,13 @@ function App() {
   function ask(title: string, detail: string, fn: () => Promise<void>) {
     setConfirm({ title, detail, run: fn });
   }
-  if (!auth) return <div className="loading">正在连接域名管家…{error && <p>{error}</p>}</div>;
+  if (!auth) return <div className="loading">正在连接 Docker2Web…{error && <p>{error}</p>}</div>;
   if (!auth.authenticated)
     return (
       <div className="auth-wrap">
         <div className="auth-story">
           <div className="brand">
-            ◈ <span>域名管家</span>
+            ◈ <span>Docker2Web</span>
           </div>
           <div>
             <span className="eyebrow">YOUR PROJECTS, CONNECTED</span>
@@ -180,7 +180,7 @@ function App() {
               <b>↗</b>
             </div>
           </div>
-          <small>Project Domain Manager · v0.1.0</small>
+          <small>Docker2Web · v0.1.0</small>
         </div>
         <div className="auth-panel">
           <span className="eyebrow">PRIVATE WORKSPACE</span>
@@ -252,7 +252,7 @@ function App() {
         <div className="brand">
           ◈{' '}
           <span>
-            域名管家<small>PROJECT DOMAIN MANAGER</small>
+            Docker2Web<small>DOCKER PROJECTS, CONNECTED</small>
           </span>
         </div>
         <div className="workspace">
@@ -532,7 +532,7 @@ function App() {
                             onClick={() =>
                               ask(
                                 '接管这条规则',
-                                `将允许域名管家编辑 ${e.domain_names[0]}。保存前会检查 NPM 中的外部修改。`,
+                                `将允许 Docker2Web 编辑 ${e.domain_names[0]}。保存前会检查 NPM 中的外部修改。`,
                                 () =>
                                   mutation(`/entries/${e.id}/adopt`, {
                                     fingerprint: e.fingerprint,
@@ -699,7 +699,7 @@ function App() {
           )}
         </div>
         <footer>
-          项目留在本地，入口井井有条。<span>Project Domain Manager</span>
+          项目留在本地，入口井井有条。<span>Docker2Web</span>
         </footer>
       </main>
       {editing && (
@@ -982,7 +982,7 @@ function SettingsForm({
         </div>
       </section>
       <div className="save-bar">
-        <span>正常项目流量经过 NPM，不经过域名管家。</span>
+        <span>正常项目流量经过 NPM，不经过 Docker2Web。</span>
         <button className="primary" disabled={busy}>
           {busy ? '验证并保存中…' : '验证连接并保存'}
         </button>

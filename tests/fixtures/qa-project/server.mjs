@@ -14,7 +14,7 @@ const handler = (req, res) => {
   res
     .writeHead(200, { 'content-type': 'text/html; charset=utf-8' })
     .end(
-      `<!doctype html><html lang="zh-CN"><meta name="viewport" content="width=device-width"><title>域名管家测试项目</title><body style="font-family:system-ui;padding:40px;background:#edf5ef;color:#174d3c"><h1>域名管家测试项目 ✓</h1><p>服务：${process.env.QA_SERVICE || 'web'}</p><p>这是独立测试容器，不包含业务数据。</p><p>请求域名：${String(req.headers.host).replace(/[<>&"']/g, '')}</p><a href="/status/401">测试 401</a> · <a href="/status/503">测试 503</a></body></html>`,
+      `<!doctype html><html lang="zh-CN"><meta name="viewport" content="width=device-width"><title>Docker2Web 测试项目</title><body style="font-family:system-ui;padding:40px;background:#edf5ef;color:#174d3c"><h1>Docker2Web 测试项目 ✓</h1><p>服务：${process.env.QA_SERVICE || 'web'}</p><p>这是独立测试容器，不包含业务数据。</p><p>请求域名：${String(req.headers.host).replace(/[<>&"']/g, '')}</p><a href="/status/401">测试 401</a> · <a href="/status/503">测试 503</a></body></html>`,
     );
 };
 function websocket(req, socket) {
