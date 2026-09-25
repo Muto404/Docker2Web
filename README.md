@@ -18,7 +18,7 @@
 
 ## 安装运行
 
-需要 Docker Desktop 和 Node.js 22.13+（建议 22.22.0）。在仓库根目录执行：
+需要 Docker Desktop 和 Node.js 22.22+（建议 22.22.0）。在仓库根目录执行：
 
 ```sh
 npm ci

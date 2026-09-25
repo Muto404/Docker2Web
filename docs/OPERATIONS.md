@@ -36,7 +36,7 @@ docker compose restart app
 
 ## 备份
 
-在宿主机仓库目录执行 `npm run backup`（需要 Node 22.13+）。使用 SQLite online backup，应用可继续运行；输出在 `backups/时间戳/pdm.sqlite`。
+在宿主机仓库目录执行 `npm run backup`（需要 Node 22.22+）。使用 SQLite online backup，应用可继续运行；输出在 `backups/时间戳/pdm.sqlite`。
 
 独立、安全地备份 `secrets/encryption-key`、`secrets/bootstrap-token` 和部署 `.env`。数据库备份不包含密钥。定期备份 NPM 自身的 `/data` 与 `/etc/letsencrypt` 持久化目录，它们不属于工具备份。
 
